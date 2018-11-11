@@ -1,0 +1,104 @@
+
+create or replace trigger UPDATE_PLAYER
+after insert
+on scorecard
+for each row
+DECLARE
+player_run number;
+player_match number;
+mcode number;
+new_run number;
+new_match number;
+pstate number;
+code number;
+pout number;
+avg number;
+pbl number;
+new_ball number;
+psr number;
+ofours number;
+osixes number;
+new_fours number;
+new_sixes number;
+old_hundred number;
+old_fifty number;
+new_fifty number;
+new_hundred number;
+msr number;
+nr number;
+sc number;
+BEGIN
+code:=:new.player_id;
+mcode:=:new.match_code;
+--insert into pjoins(player_id, scorecard_id)
+--values(code, :new.scorecard_id);
+--insert into mjoins(match_code, scorecard_id)
+--values(:new.match_code, :new.scorecard_id);
+ofours:=get_player_fours(code);
+osixes:=get_player_sixes(code);
+player_run:= GET_PLAYER_RUN(code);
+player_match:=GET_PLAYER_MATCH(code);
+pbl:=GET_Player_Balls(code);
+new_ball:=pbl+:new.balls;
+new_run:=player_run+:new.runs;
+msr:=:new.runs/:new.balls*100;
+new_match:=player_match+1;
+new_fours:=ofours+:new.four;
+new_sixes:=osixes+:new.six;
+old_hundred:=GET_player_hundreds(code);
+old_fifty:=GET_PLAYER_FIFTY(code);
+new_fifty:=old_fifty;
+new_hundred:=old_hundred;
+pstate:=:new.state;
+pout:=get_player_out(code)+pstate;
+psr:=new_run/new_ball*100;
+UPDATE PLAYER
+SET out = pout
+where player_id=code;
+UPDATE PLAYER
+SET RUN = new_run
+where player_id=code;
+UPDATE PLAYER
+SET match = new_match
+where player_id=code;
+avg:=GET_PLAYER_RUN(code)/pout;
+
+UPDATE PLAYER
+SET AVERAGE = avg
+where player_id=code;
+
+UPDATE PLAYER
+SET Balls = new_ball
+where player_id=code;
+
+UPDATE PLAYER
+SET STRIKE_RATE = psr
+where player_id=code;
+
+UPDATE PLAYER
+SET FOURS = new_fours
+where player_id=code;
+
+UPDATE PLAYER
+SET SIXES = new_sixes
+where player_id=code;
+nr:=:new.runs;
+if nr>=100 then
+	new_hundred:=old_hundred+1;
+
+end if;
+if nr>=50 and nr<100 then
+	new_fifty:=old_fifty+1;
+end if;
+
+	UPDATE PLAYER
+	SET HUNDREDS = new_hundred
+	where player_id=code;
+
+
+	UPDATE PLAYER
+	SET FIFTY = new_fifty
+	where player_id=code;
+	
+END ;
+/

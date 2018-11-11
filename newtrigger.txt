@@ -1,0 +1,30 @@
+create table team_score(
+match_code number,
+team_code number,
+score number
+);
+
+CREATE or replace trigger UPFATE_TEAM_SCORE
+After UPDATE
+of score1
+ON MATCH
+for each row
+declare 
+
+BEGIN
+INSERT into team_score VALUES(:new.match_code, :new.team1, :new.score1);
+end;
+/
+
+
+CREATE or replace trigger UPFATE_TEAM_SCORE2
+After UPDATE
+of score2
+ON MATCH
+for each row
+declare 
+
+BEGIN
+INSERT into team_score VALUES(:new.match_code, :new.team2, :new.score2);
+end;
+/

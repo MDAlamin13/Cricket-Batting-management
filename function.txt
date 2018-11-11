@@ -1,0 +1,429 @@
+CREATE OR REPLACE 
+function get_team_name(tcode in number)
+return VARCHAR2 IS
+pf number;
+msg varchar2(100);
+BEGIN
+SELECT NAME INTO MSG
+FROM Team
+WHERE Team_code=tcode;
+if MSG is null THEN
+	return 'UNANNOMUS';
+else
+	return msg;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 'UNANNOMUS' ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+
+end;
+/
+CREATE OR REPLACE 
+function GET_MATCH_NAME(mcode in number)
+return VARCHAR2 IS
+tname1 VARCHAR2(100);
+tname2 VARCHAR2(100);
+msg VARCHAR2(200);
+BEGIN
+SELECT get_team_name(team1) INTO tname1
+FROM match
+WHERE match_code = mcode;
+
+SELECT get_team_name(team2) INTO tname2
+FROM match
+WHERE match_code = mcode;
+
+msg:=tname1||' vs '||tname2;
+
+return msg;
+
+END;
+/
+
+
+
+CREATE OR REPLACE 
+function GET_PLAYER_AVERAGE(pcode in NUMBER)
+return number IS
+pf number;
+msg varchar2(100);
+BEGIN
+SELECT AVERAGE INTO pf
+FROM PLAYER
+WHERE player_id=pcode;
+if pf is null THEN
+	return 0;
+else
+	return pf;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+CREATE OR REPLACE 
+function GET_PLAYER_Balls(pcode in NUMBER)
+return number IS
+pf number;
+msg varchar2(100);
+BEGIN
+SELECT BALLS INTO pf
+FROM PLAYER
+WHERE player_id=pcode;
+if pf is null THEN
+	return 0;
+else
+	return pf;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+
+CREATE OR REPLACE 
+function GET_PLAYER_FIFTY(pcode in NUMBER)
+return number IS
+pf number;
+msg varchar2(100);
+BEGIN
+SELECT FIFTY INTO pf
+FROM PLAYER
+WHERE player_id=pcode;
+if pf is null THEN
+	return 0;
+else
+	return pf;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+CREATE OR REPLACE 
+function GET_PLAYER_FOURS(pcode in NUMBER)
+return number IS
+pfour number;
+msg varchar2(100);
+BEGIN
+SELECT FOURS INTO pfour
+FROM PLAYER
+WHERE player_id=pcode;
+if pfour is null THEN
+	return 0;
+else
+	return pfour;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+
+
+CREATE OR REPLACE 
+function GET_PLAYER_HUNDREDS(pcode in NUMBER)
+return number IS
+pf number;
+msg varchar2(100);
+BEGIN
+SELECT HUNDREDS INTO pf
+FROM PLAYER
+WHERE player_id=pcode;
+if pf is null THEN
+	return 0;
+else
+	return pf;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+
+CREATE OR REPLACE 
+function GET_PLAYER_MATCH(pcode in NUMBER)
+return number IS
+pmatch number;
+msg varchar2(100);
+BEGIN
+SELECT Match INTO pmatch
+FROM PLAYER
+WHERE player_id=pcode;
+
+RETURN pmatch;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+CREATE OR REPLACE 
+function GET_PLAYER_NAME(pcode in NUMBER)
+return VARCHAR2 IS
+pf number;
+msg varchar2(100);
+BEGIN
+SELECT NAME INTO MSG
+FROM PLAYER
+WHERE player_id=pcode;
+if MSG is null THEN
+	return 'UNANNOMUS';
+else
+	return msg;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 'UNANNOMUS' ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+CREATE OR REPLACE 
+function GET_PLAYER_OUT(pcode in NUMBER)
+return number IS
+pout number;
+msg varchar2(100);
+BEGIN
+SELECT OUT INTO pout
+FROM PLAYER
+WHERE player_id=pcode;
+
+if pout is null then
+return 0;
+ELSE
+RETURN pout;
+end if;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+CREATE OR REPLACE 
+function GET_PLAYER_RUN(pcode in NUMBER)
+return number IS
+prun number;
+msg varchar2(100);
+BEGIN
+SELECT RUN INTO prun
+FROM PLAYER
+WHERE player_id=pcode;
+
+if prun is null THEN
+return 0;
+ELSE
+RETURN PRUN;
+end if;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN NULL ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+CREATE OR REPLACE 
+function GET_PLAYER_SIXES(pcode in NUMBER)
+return number IS
+psix number;
+msg varchar2(100);
+BEGIN
+SELECT SIXES INTO psix
+FROM PLAYER
+WHERE player_id=pcode;
+if psix is null THEN
+	return 0;
+else
+	return psix;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+CREATE OR REPLACE 
+function GET_PLAYER_STRIKE_RATE(pcode in NUMBER)
+return number IS
+pf number;
+msg varchar2(100);
+BEGIN
+SELECT STRIKE_RATE INTO pf
+FROM PLAYER
+WHERE player_id=pcode;
+if pf is null THEN
+	return 0;
+else
+	return pf;
+end if;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+RETURN 0 ;
+WHEN TOO_MANY_ROWS THEN
+RETURN NULL ;
+WHEN OTHERS THEN
+RETURN NULL ;
+END;
+/
+
+
+
+CREATE OR REPLACE 
+function position_by_average(pcode in number)
+return number is
+cnt number;
+prun number;
+begin
+cnt:=1;
+prun:=get_player_average(pcode);
+for R in (Select *from player where player_id<>pcode)
+LOOP
+--variable R is used to retrieve columns
+--YEARS := (MONTHS_BETWEEN(SYSDATE, R.HIRE_DATE) / 12) ;
+IF R.average>prun THEN
+	cnt := cnt + 1 ;
+END IF ;
+END LOOP ;
+return cnt;
+end;
+/
+
+CREATE OR REPLACE 
+function position_by_fifty(pcode in number)
+return number is
+cnt number;
+prun number;
+begin
+cnt:=1;
+prun:=get_player_fifty(pcode);
+for R in (Select *from player where player_id<>pcode)
+LOOP
+IF R.fifty>prun THEN
+	cnt := cnt + 1 ;
+END IF ;
+END LOOP ;
+return cnt;
+end;
+/
+
+CREATE OR REPLACE 
+function position_by_hundreds(pcode in number)
+return number is
+cnt number;
+prun number;
+begin
+cnt:=1;
+prun:=get_player_hundreds(pcode);
+for R in (Select *from player where player_id<>pcode)
+LOOP
+IF R.hundreds>prun THEN
+	cnt := cnt + 1 ;
+END IF ;
+END LOOP ;
+return cnt;
+end;
+/
+
+CREATE OR REPLACE 
+function position_by_run(pcode in number)
+return number is
+cnt number;
+prun number;
+begin
+cnt:=1;
+prun:=get_player_run(pcode);
+for R in (Select *from player where player_id<>pcode)
+LOOP
+--variable R is used to retrieve columns
+--YEARS := (MONTHS_BETWEEN(SYSDATE, R.HIRE_DATE) / 12) ;
+IF R.RUN>prun THEN
+	cnt := cnt + 1 ;
+END IF ;
+END LOOP ;
+return cnt;
+end;
+/
+
+CREATE OR REPLACE 
+function position_by_strike_rate(pcode in number)
+return number is
+cnt number;
+prun number;
+begin
+cnt:=1;
+prun:=get_player_strike_rate(pcode);
+for R in (Select *from player where player_id<>pcode)
+LOOP
+--variable R is used to retrieve columns
+--YEARS := (MONTHS_BETWEEN(SYSDATE, R.HIRE_DATE) / 12) ;
+IF R.strike_rate>prun THEN
+	cnt := cnt + 1 ;
+END IF ;
+END LOOP ;
+return cnt;
+end;
+/
+
+
+
+
+
+
+
+
+

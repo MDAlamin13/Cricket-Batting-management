@@ -1,0 +1,114 @@
+
+               CSE 304 Project
+Project Name: Cricket Record Management (Batting)
+
+                               Abir Shafy Bindu
+                               #1305052
+                               MD. Alamin
+                               #1305054 
+
+CREATE TABLE Player(
+player_id INT,
+name VARCHAR(30),
+age INT,
+run INT,
+average FLOAT,
+strike_rate FLOAT,
+PRIMARY KEY(player_id)
+)
+
+CREATE TABLE Team(
+team_code INT,
+name VARCHAR(30),
+type VARCHAR(30),
+team_record VARCHAR(1000),
+PRIMARY KEY(team_code)
+)
+
+CREATE TABLE PlaysFor(
+team_code INT,
+player_id INT,
+PRIMARY KEY(team_code,player_id),
+FOREIGN KEY(team_code) REFERENCES Team(team_code),
+FOREIGN KEY(player_id) REFERENCES Player(player_id)
+)
+
+CREATE TABLE Tournament(
+tournament_code INT,
+name VARCHAR(30),
+type VARCHAR(30),
+PRIMARY KEY (tournament_code)
+)
+
+
+CREATE TABLE Participates(
+team_code INT,
+tournament_code INT,
+PRIMARY KEY(team_code,tournament_code),
+FOREIGN KEY(team_code) REFERENCES TEAM(team_code),
+FOREIGN KEY(tournament_code) REFERENCES Tournament(tournament_code)
+)
+
+CREATE TABLE Venue(
+venue_name VARCHAR(30),
+city VARCHAR(30),
+country VARCHAR(30),
+PRIMARY KEY(venue_name)
+)
+
+CREATE TABLE Match(
+match_code INT,
+match_type VARCHAR(20),
+match_date DATE,
+result VARCHAR(100),
+tournament_code INT,
+venue_name VARCHAR(30),
+PRIMARY KEY(match_code),
+FOREIGN KEY(tournament_code) REFERENCES Tournament(tournament_code),
+FOREIGN KEY(venue_name) REFERENCES Venue(venue_name)
+)
+
+CREATE TABLE Plays(
+team_code INT,
+match_code INT,
+PRIMARY KEY(team_code,match_code),
+FOREIGN KEY(team_code) REFERENCES Team(team_code),
+FOREIGN KEY(match_code) REFERENCES Match(match_code)
+) 
+
+CREATE TABLE RollOfHonour(
+tournament_code INT,
+year INT,
+season INT,
+host VARCHAR(30),
+champion VARCHAR(30),
+runner_up VARCHAR(30),
+PRIMARY KEY(tournament_code),
+FOREIGN KEY(tournament_code) REFERENCES Tournament(tournament_code)
+)
+
+CREATE TABLE ScoreCard(
+scorecard_id INT,
+match_code INT,
+player_id INT,
+team_code INT,
+position INT,
+runs INT,
+balls INT,
+four INT,
+six  INT,
+strike_rate FLOAT,
+state CHAR(7),
+minute INT,
+PRIMARY KEY(scorecard_id)
+
+)
+
+
+
+CREATE TABLE HoldsIn(
+tournament_code INT,
+venue_name VARCHAR(30),
+FOREIGN KEY(tournament_code) REFERENCES Tournament(tournament_code),
+FOREIGN KEY(venue_name) REFERENCES Venue(venue_name)
+)
