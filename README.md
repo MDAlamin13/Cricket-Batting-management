@@ -1,2 +1,2 @@
-# Cricket-Batting-management
-It was our database management project.
+# Cricket-Batting-Management
+It was my database management project.
